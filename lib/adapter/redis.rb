@@ -4,15 +4,18 @@ require 'redis'
 module Adapter
   module Redis
     def read(key)
-      decode(client.get(key_for(key)))
+      #decode(client.get(key_for(key)))
+      JSON.parse(client.get(key))
     end
 
     def write(key, value)
-      client.set(key_for(key), encode(value))
+      #client.set(key_for(key), encode(value))
+      client.set(key, value.to_json)
     end
 
     def delete(key)
-      read(key).tap { client.del(key_for(key)) }
+      #read(key).tap { client.del(key_for(key)) }
+      client.del(key)
     end
 
     def clear

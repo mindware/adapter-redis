@@ -3,22 +3,24 @@ require 'redis'
 
 module Adapter
   module Redis
-    def read(key)
+
+    def read(key, options=nil)
       #decode(client.get(key_for(key)))
-      JSON.parse(client.get(key))
+      # JSON.parse(client.get(key))
+      client.get(key)
     end
 
-    def write(key, value)
+    def write(key, value, options=nil)
       #client.set(key_for(key), encode(value))
       client.set(key, value.to_json)
     end
 
-    def delete(key)
+    def delete(key, options=nil)
       #read(key).tap { client.del(key_for(key)) }
       client.del(key)
     end
 
-    def clear
+    def clear(options=ni)
       client.flushdb
     end
 

@@ -1,9 +1,7 @@
 require 'adapter'
 require 'redis'
 
-module Adapter
-  module Redis
-
+Adapter.define(:redis) do
     def read(key, options=nil)
       #decode(client.get(key_for(key)))
       # JSON.parse(client.get(key))
@@ -20,7 +18,7 @@ module Adapter
       client.del(key)
     end
 
-    def clear(options=ni)
+    def clear(options=nil)
       client.flushdb
     end
 
@@ -67,7 +65,4 @@ module Adapter
     def generate_expiration(expiration)
       (Time.now + (expiration || 1).to_f).to_f
     end
-  end
 end
-
-Adapter.define(:redis, Adapter::Redis)
